@@ -1,25 +1,36 @@
-// import prisma from "@/lib/db";
+import { Poppins } from "next/font/google";
 
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { LoginButton } from "@/components/auth/login-button";
 import { siteConfig } from "@/lib/siteConfig";
 
+const font = Poppins({
+  subsets: ["latin"],
+  weight: ["600"],
+});
+
 export default function Home() {
-  // const landlords = prisma.get;
   return (
-    <>
-      <main className="hero min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-sky-800 ">
-        <div className="hero-content text-center">
-          <div className="max-w-md">
-            <h1 className="text-6xl font-semibold text-white drop-shadow-md">
-              Auth
-            </h1>
-            <p className="text-white text-lg py-4">{siteConfig.description}</p>
-            <LoginButton>
-              <button className="btn">Sign In</button>
-            </LoginButton>
-          </div>
+    <main className="flex h-full flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
+      <div className="space-y-6 text-center">
+        <h1
+          className={cn(
+            "text-6xl font-semibold text-white drop-shadow-md",
+            font.className
+          )}
+        >
+          🔐 Auth
+        </h1>
+        <p className="text-white text-lg">{siteConfig.description}</p>
+        <div>
+          <LoginButton asChild>
+            <Button variant="secondary" size="lg">
+              Sign in
+            </Button>
+          </LoginButton>
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 }

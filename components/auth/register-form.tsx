@@ -1,41 +1,46 @@
 "use client";
 
+import * as z from "zod";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { CardWrapper } from "./card-wrapper";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { RegisterSchema } from "@/lib/formSchemas";
-import * as z from "zod";
-import { cn } from "@/lib/utils";
-import { InputError } from "../input-error";
-import { FormError } from "../form-error";
-import { FormSuccess } from "../form-success";
-import { registerUser } from "@/actions/registerUser";
-import { useState, useTransition } from "react";
+import { RegisterSchema } from "@/lib/schemas";
+import { Input } from "@/components/ui/input";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { CardWrapper } from "@/components/auth/card-wrapper";
+import { Button } from "@/components/ui/button";
+import { FormError } from "@/components/form-error";
+import { FormSuccess } from "@/components/form-success";
+import { register } from "@/actions/register";
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<z.infer<typeof RegisterSchema>>({
+
+  const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
+      name: "",
     },
   });
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     setError("");
     setSuccess("");
+
     startTransition(() => {
-      registerUser(values).then((data) => {
+      register(values).then((data) => {
         setError(data.error);
         setSuccess(data.success);
       });
@@ -49,64 +54,70 @@ export const RegisterForm = () => {
       backButtonHref="/auth/login"
       showSocial
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="space y-4">
-          <div className="form-control w-full">
-            <div
-              className={cn("label", errors.name && "text-error")}
-              aria-invalid={errors.name ? "true" : "false"}
-            >
-              Name
-            </div>
-            <input
-              id="name"
-              type="text"
-              placeholder="John Doe"
-              className="input input-bordered w-full"
-              aria-invalid={errors.name ? "true" : "false"}
-              {...register("name")}
-              disabled={isPending}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="John Doe"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <InputError message={errors.name?.message} />
-
-            <div
-              className={cn("label", errors.email && "text-error")}
-              aria-invalid={errors.email ? "true" : "false"}
-            >
-              Email
-            </div>
-            <input
-              id="email"
-              type="email"
-              placeholder="johndoe@gmail.com"
-              className="input input-bordered w-full"
-              aria-invalid={errors.email ? "true" : "false"}
-              {...register("email")}
-              disabled={isPending}
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="john.doe@example.com"
+                      type="email"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <InputError message={errors.email?.message} />
-
-            <div className={cn("label", errors.password && "text-error")}>
-              Password
-            </div>
-            <input
-              id="password"
-              type="password"
-              placeholder="******"
-              className="input input-bordered w-full"
-              aria-invalid={errors.password ? "true" : "false"}
-              {...register("password")}
-              disabled={isPending}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="******"
+                      type="password"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <InputError message={errors.password?.message} />
           </div>
-        </div>
-        <FormError message={error} />
-        <FormSuccess message={success} />
-        <button className="btn btn-wide" type="submit" disabled={isPending}>
-          Create an account
-        </button>
-      </form>
+          <FormError message={error} />
+          <FormSuccess message={success} />
+          <Button disabled={isPending} type="submit" className="w-full">
+            Create an account
+          </Button>
+        </form>
+      </Form>
     </CardWrapper>
   );
 };
