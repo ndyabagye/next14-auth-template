@@ -22,6 +22,12 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
 import { useSearchParams } from "next/navigation";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 
 export const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -62,9 +68,9 @@ export const LoginForm = () => {
             setSuccess(data.success);
           }
 
-          // if (data?.twoFactor) {
-          //   setShowTwoFactor(true);
-          // }
+          if (data?.twoFactor) {
+            setShowTwoFactor(true);
+          }
         })
         .catch(() => setError("Something went wrong"));
     });
@@ -80,25 +86,40 @@ export const LoginForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
-            {/* {showTwoFactor && (
-              <FormField
-                control={form.control}
-                name="code"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Two Factor Code</FormLabel>
-                    <FormControl>
-                      <Input
+            {showTwoFactor && (
+              <div className="flex justify-center w-full bg-red-500">
+                <FormField
+                  control={form.control}
+                  name="code"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Two Factor Code</FormLabel>
+                      <FormControl>
+                        {/* <Input
                         {...field}
                         disabled={isPending}
                         placeholder="123456"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )} */}
+                      /> */}
+                        <InputOTP maxLength={6} {...field} disabled={isPending}>
+                          <InputOTPGroup>
+                            <InputOTPSlot index={0} />
+                            <InputOTPSlot index={1} />
+                            <InputOTPSlot index={2} />
+                          </InputOTPGroup>
+                          <InputOTPSeparator />
+                          <InputOTPGroup>
+                            <InputOTPSlot index={3} />
+                            <InputOTPSlot index={4} />
+                            <InputOTPSlot index={5} />
+                          </InputOTPGroup>
+                        </InputOTP>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
             {!showTwoFactor && (
               <>
                 <FormField
