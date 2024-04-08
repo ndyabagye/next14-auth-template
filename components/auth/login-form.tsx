@@ -87,7 +87,7 @@ export const LoginForm = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
             {showTwoFactor && (
-              <div className="flex justify-center w-full bg-red-500">
+              <div className="flex w-full">
                 <FormField
                   control={form.control}
                   name="code"

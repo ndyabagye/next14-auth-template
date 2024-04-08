@@ -25,12 +25,13 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
 };
 
 export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
-  // const  = `http://localhost:3000/auth/new-password?token=${token}`;
-
   await resend.emails.send({
     from: "onboarding@resend.dev",
     to: email,
     subject: "Two Factor Authentication Code",
-    html: `<p>Your 2FA code is ${token}.</p>`,
+    html: `<p>Your 2FA code is ${token}.</p> 
+          <br />
+          <br/>
+          <p>This code will expire in 5 minutes.<p/>`,
   });
 };
