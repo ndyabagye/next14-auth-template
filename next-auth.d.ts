@@ -4,6 +4,7 @@ import { UserRole } from "@prisma/client";
 
 export type ExtendedUser = User & {
   role: UserRole;
+  isTwoFactorEnabled: boolean;
 };
 
 declare module "next-auth" {
