@@ -10,12 +10,11 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/lib/routes";
 
 export const Social = () => {
   const searchParams = useSearchParams();
-  // const callbackUrl = searchParams.get("callbackUrl");
+  const callbackUrl = searchParams.get("callbackUrl");
 
   const onClick = (provider: "google" | "github") => {
     signIn(provider, {
-      // callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT,
-      callbackUrl: DEFAULT_LOGIN_REDIRECT,
+      callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
   };
 

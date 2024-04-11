@@ -24,6 +24,7 @@ export default function Home() {
         </h1>
         <p className="text-white text-lg">{siteConfig.description}</p>
         <div>
+          {/* <LoginButton mode="modal" asChild> */}
           <LoginButton asChild>
             <Button variant="secondary" size="lg">
               Sign in
