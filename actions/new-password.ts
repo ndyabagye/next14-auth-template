@@ -5,7 +5,7 @@ import * as z from "zod";
 
 import { getPasswordResetTokenByToken } from "@/data/password-reset-token";
 import { getUserByEmail } from "@/data/user";
-import { NewPasswordSchema } from "@/lib/schemas";
+import { NewPasswordSchema } from "@/schemas";
 import { db } from "@/lib/db";
 
 export const newPassword = async (

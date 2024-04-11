@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 
-import { ResetSchema } from "@/lib/schemas";
+import { ResetSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
 import { generatePasswordResetToken } from "@/lib/tokens";
 import { sendPasswordResetEmail } from "@/lib/mail";

@@ -6,7 +6,7 @@ import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 
-import { LoginSchema } from "@/lib/schemas";
+import { LoginSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import {
   Form,
